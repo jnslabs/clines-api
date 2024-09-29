@@ -1,0 +1,23 @@
+version: '3.9'
+services:
+  postgres:
+    image: postgres
+    container_name: clines-postgressql
+    restart: always
+    shm_size: 128mb
+    environment:
+      TZ: America/Sao_Paulo
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: clines
+    volumes:
+      - ./db-volume:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    expose:
+      - 5432
+    networks:
+      - clines-network
+networks:
+  clines-network:
+    driver: bridge
