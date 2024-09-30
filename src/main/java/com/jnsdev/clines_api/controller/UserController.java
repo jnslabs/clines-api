@@ -28,11 +28,11 @@ public class UserController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     ResponseEntity<?> createBy(@RequestBody @Valid UserForm form) {
-        var id = service.createUserBy(form);
+        var userView = service.createUserBy(form);
 
-        var uri = URI.create("/users/").resolve(id.toString());
+        var uri = URI.create("/users/").resolve(userView.id().toString());
 
-        return created(uri).build();
+        return created(uri).body(userView);
     }
 
     @GetMapping

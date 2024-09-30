@@ -13,6 +13,6 @@ import org.springframework.stereotype.Component;
 public class UserViewMapper implements Mapper<User, UserView> {
     @Override
     public UserView map(User source) {
-        return new UserView(source.getName(), source.getEmail());
+        return new UserView(source.getId(), source.getName(), source.getEmail());
     }
 }

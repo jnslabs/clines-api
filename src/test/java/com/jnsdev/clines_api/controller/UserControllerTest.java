@@ -1,6 +1,8 @@
 package com.jnsdev.clines_api.controller;
 
 import com.jnsdev.clines_api.repository.Entity.User;
+import org.hamcrest.Matchers;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureTestEntityManager;
@@ -35,34 +37,40 @@ class UserControllerTest {
     @Autowired
     private TestEntityManager entityManager;
 
+    @AfterEach
+    public void setup() {
+        entityManager.clear();
+    }
+
     @Test
-    void shouldReturn404WhenNotExistUserById() throws Exception {
-        mockMvc.perform(get("/users/999"))
-                .andExpect(status().isNotFound());
+    void shouldCreateByReturnLong() throws Exception {
+        var json = "{\"name\": \"fulano\", \"email\": \"fulano@email.com\", \"password\": \"123456\"}";
+
+        mockMvc.perform(post("/users")
+                        .contentType(APPLICATION_JSON)
+                        .content(json))
+                .andExpect(status().isCreated())
+                .andExpect(header().string("Location", Matchers.matchesPattern("/users/\\d+")))
+                .andExpect(jsonPath("$.name").value("fulano"))
+                .andExpect(jsonPath("$.email").value("fulano@email.com"));
     }
 
     @Test
     void shouldReturnAnUserById() throws Exception {
         var user = new User("fulano", "fulano@email.com", "123456");
 
-        entityManager.persist(user);
+        User persisted = entityManager.persistAndFlush(user);
 
-        mockMvc.perform(get("/users/1"))
-                .andExpect(status().isOk())
-                .andDo(log())
+        mockMvc.perform(get("/users/" + persisted.getId()))
+                .andExpect(status().isOk()).andDo(log())
                 .andExpect(jsonPath("$.name", equalTo(user.getName())))
                 .andExpect(jsonPath("$.email", equalTo(user.getEmail())));
     }
 
-    @Test
-    void shouldCreateByReturnLong() throws Exception {
-        var json = "{\"name\": \"fulano\", \"email\": \"fulano@email.com\", \"password\": 123456}";
 
-        mockMvc.perform(post("/users")
-                        .content(json)
-                        .contentType(APPLICATION_JSON))
-                .andExpect(status().isCreated())
-                .andExpect(header().stringValues("Location", "/users/1"));
+    @Test
+    void shouldReturn404WhenNotExistUserById() throws Exception {
+        mockMvc.perform(get("/users/999")).andExpect(status().isNotFound());
     }
 
 }

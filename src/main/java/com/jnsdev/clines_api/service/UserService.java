@@ -6,6 +6,7 @@ import com.jnsdev.clines_api.domain.mapper.users.UserFormMapper;
 import com.jnsdev.clines_api.domain.mapper.users.UserViewMapper;
 import com.jnsdev.clines_api.exceptions.ResourceAlreadyExistsException;
 import com.jnsdev.clines_api.exceptions.ResourceNotFoundException;
+import com.jnsdev.clines_api.repository.Entity.User;
 import com.jnsdev.clines_api.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -28,17 +29,12 @@ public class UserService {
     private final UserViewMapper viewMapper;
 
     @Transactional(readOnly = false)
-    public Long createUserBy(UserForm form) {
-
+    public UserView createUserBy(UserForm form) {
         if(repository.existsByEmail(form.email())) {
             throw new ResourceAlreadyExistsException("User alread exist");
         }
-
         var user = formMapper.map(form);
-
-        repository.save(user);
-
-        return user.getId();
+        return viewMapper.map(repository.save(user));
     }
 
     public UserView showUserBy(Long id) {

@@ -1,6 +1,7 @@
 package com.jnsdev.clines_api.service;
 
 import com.jnsdev.clines_api.domain.UserForm;
+import com.jnsdev.clines_api.domain.UserView;
 import com.jnsdev.clines_api.domain.mapper.users.UserFormMapper;
 import com.jnsdev.clines_api.domain.mapper.users.UserViewMapper;
 import com.jnsdev.clines_api.repository.Entity.User;
@@ -40,12 +41,14 @@ class UserServiceTest {
     void sholdCreateUserReturnLong() {
         var user = new User(1L, "fulano", "fulano@email.com", "123456");
         var userForm = new UserForm("fulano", "fulano@emai.com", "123456");
+        var userView = new UserView(1l,"fulano", "fulano@emai.com");
         when(userRepository.save(any(User.class))).thenReturn(user);
         when(formMapper.map(any(UserForm.class))).thenReturn(user);
+        when(viewMapper.map(any(User.class))).thenReturn(userView);
 
-        Long id = userService.createUserBy(userForm);
+        var userBy = userService.createUserBy(userForm);
 
-        assertEquals(1L, id);
+        assertEquals(user.getId(), userBy.id());
         then(userRepository).should().save(any(User.class));
     }
 
