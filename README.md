@@ -15,3 +15,14 @@
 * Lombok
 * Github Action
 * AWS
+
+## Gerar imagem container
+
+```shell
+docker build -t jnsousa/clines-api:1.0.0 .
+```
+
+## Gerar container
+```shell
+$\docker\api> docker compose up -d
+```

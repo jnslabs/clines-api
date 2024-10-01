@@ -1,0 +1,38 @@
+version: '3.9'
+services:
+  clines-api:
+    image: jnsousa/clines-api:1.0.0
+    restart: always
+    ports:
+      - "8080:8080"
+    environment:
+      DB_URL: jdbc:postgresql://postgres:5432/clines
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+    depends_on:
+      - postgres
+    networks:
+      - clines-network
+
+  postgres:
+    image: postgres
+    container_name: clines-postgressql
+    restart: always
+    shm_size: 128mb
+    environment:
+      TZ: America/Sao_Paulo
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: clines
+    volumes:
+      - ./db-volume:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    expose:
+      - 5432
+    networks:
+      - clines-network
+
+networks:
+  clines-network:
+    driver: bridge
