@@ -1,11 +1,12 @@
 name: Maven
 
 on:
-  workflow_dispatch:
   push:
-    branches: [ '*']
+    branches: [ '*' ]
   pull_request:
     branches: [ "main" ]
+
+  workflow_dispatch:
 
 jobs:
   build:
