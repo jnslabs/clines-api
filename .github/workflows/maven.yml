@@ -30,3 +30,8 @@ jobs:
 
     - name: Build with Maven
       run: mvn -B package --file pom.xml
+
+  docker:
+    needs: build
+    uses: ./.github/workflows/Docker.yml
+    secrets: inherit
