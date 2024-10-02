@@ -48,14 +48,15 @@ EXPOSE 8080
 
 CMD java -XX:+UseContainerSupport -Xmx512m -jar app.jar
 ```
-> Nesse caso as variaveis de ambiente tem ser passadas no docker compose ou usar `-e` pelo docker run
+> :exclamation: Nesse caso as variaveis de ambiente tem ser passadas no docker compose ou usar `-e` pelo docker run
+
 ### Docker Build
 ```shell
 docker build -t jnsousa/clines-api:1.0.0 .
 ```
 
 ## Gerar container
-### RUN
+### run
 ```shell
 docker run -p 8080:8080 --name clines -d jnsousa/clines-api:1.0.0
 ```
