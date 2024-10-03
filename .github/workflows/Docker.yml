@@ -32,4 +32,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ secrets.USERNAME_DOCKER }}/${{ env.NOME_REPO }}:${{ github.run_attempt }}
+          tags: ${{ secrets.USERNAME_DOCKER }}/${{ github.event.repository.name }}:${{ github.run_attempt }}
