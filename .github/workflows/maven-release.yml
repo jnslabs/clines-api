@@ -1,10 +1,8 @@
-name: Maven
+name: Maven Release
 
 on:
-  push:
-    branches:
-      - '**'
-  workflow_dispatch:
+  release:
+    types: [ created ]
 
 jobs:
   build:
@@ -32,3 +30,14 @@ jobs:
 
     - name: Run tests
       run: mvn test
+
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: jar-file
+        path: target/*.jar
+
+  docker:
+    needs: build
+    uses: ./.github/workflows/Docker.yml
+    secrets: inherit

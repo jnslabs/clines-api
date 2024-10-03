@@ -1,7 +1,7 @@
 version: '3.9'
 services:
   clines-api:
-    image: jnsousa/clines-api:1.0.0
+    image: jnsousa/clines-api:1
     restart: always
     ports:
       - "8080:8080"

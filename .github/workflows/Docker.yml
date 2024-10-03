@@ -1,4 +1,4 @@
-name: Docker
+name: Docker hub
 
 on:
   workflow_call:
