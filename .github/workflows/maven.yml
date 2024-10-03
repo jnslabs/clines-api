@@ -45,4 +45,4 @@ jobs:
     - name: Exibir nome do repositório
       env:
         NOME_REPO: ${{ github.event.repository.name }}
-      run: echo ${{ secrets.USERNAME_DOCKER }}/${{ env.NOME_REPO }}:${ github.run_attempt }}
+      run: echo ${{ secrets.USERNAME_DOCKER }}/${{ env.NOME_REPO }}:${{ github.run_attempt }}
