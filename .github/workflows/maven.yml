@@ -1,4 +1,4 @@
-name: Maven Push Docker
+name: Maven
 
 on:
   push:
@@ -41,8 +41,3 @@ jobs:
       with:
         name: jar-file
         path: target/*.jar
-
-    - name: Exibir nome do repositório
-      env:
-        NOME_REPO: ${{ github.event.repository.name }}
-      run: echo ${{ secrets.USERNAME_DOCKER }}/${{ env.NOME_REPO }}:${{ github.run_attempt }}
