@@ -1,8 +1,9 @@
-name: Maven
+name: Maven Push Docker
 
 on:
   push:
-    branches: [ '*' ]
+    branches:
+      - '**'
   pull_request:
     branches: [ "main" ]
 
@@ -10,11 +11,11 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v4
+
     - name: Set up JDK 21
       uses: actions/setup-java@v4
       with:
@@ -30,9 +31,18 @@ jobs:
         restore-keys: ${{ runner.os }}-m2
 
     - name: Build with Maven
-      run: mvn -B package --file pom.xml
+      run: mvn -B clean package --file pom.xml
 
-  docker:
-    needs: build
-    uses: ./.github/workflows/Docker.yml
-    secrets: inherit
+    - name: Run tests
+      run: mvn test
+
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: jar-file
+        path: target/*.jar
+
+    - name: Exibir nome do repositório
+      env:
+        NOME_REPO: ${{ github.event.repository.name }}
+      run: echo ${{ secrets.USERNAME_DOCKER }}/${{ env.NOME_REPO }}:${ github.run_attempt }}
