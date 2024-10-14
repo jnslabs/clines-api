@@ -6,7 +6,7 @@
 
 ## Repositorio
 
-[clines-api](https://github.com/jnslabs/clines-api)
+[clines-api](https://github.com/jnslabs/clines-api)[treinaweb-deploy-kubernetes-github-action-1](..%2F..%2F..%2Fworkspace-cursos%2Ftreina-web%2Ftreinaweb-deploy-kubernetes-github-action-1)
 
 ## Tecnologias Utilizadas
 

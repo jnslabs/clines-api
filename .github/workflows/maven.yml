@@ -9,4 +9,8 @@ on:
 jobs:
   build-maven:
     uses: jnslabs/github-reusable-workflow-ci/.github/workflows/maven.yml@main
-    secrets: inherit
+    with:
+      sonar_project_key: ${{ secrets.SONAR_PROJECT_KEY }}
+      sonar_organization: ${{ secrets.SONAR_ORG }}
+    secrets:
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
